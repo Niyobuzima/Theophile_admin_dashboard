@@ -1,6 +1,8 @@
 import { generateKeyPairSync } from 'node:crypto';
 import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { config } from 'dotenv';
 
+config();
 console.log('🔐 Generating RSA-PSS 2048-bit keypair...');
 
 if (process.env.NODE_ENV !== 'development') {
