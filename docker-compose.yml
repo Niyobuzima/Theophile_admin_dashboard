@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: development
+    container_name: qt-backend
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+      - ./backend/keys:/app/keys
+      - ./backend/prisma:/app/prisma
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=file:/app/prisma/db/dev.db
+      - PRIVATE_KEY_PATH=/app/keys/private.pem
+      - PUBLIC_KEY_PATH=/app/keys/public.pem
+      - PORT=3001
+      - FRONTEND_URL=http://localhost:3000
+    command: sh -c "rm -f /app/prisma/db/dev.db && (npx prisma migrate deploy || npx prisma db push) && npm run start:dev"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/users"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - qt-network
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: development
+    container_name: qt-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:3001
+    depends_on:
+      backend:
+        condition: service_healthy
+    command: npm run dev -- --host 0.0.0.0
+    networks:
+      - qt-network
+
+networks:
+  qt-network:
+    driver: bridge
