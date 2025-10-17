@@ -70,7 +70,7 @@ npm run build:proto #Compile proto file to use on the frontend
 npm run dev
 ```
 
-Frontend will be running on **http://localhost:3000**
+Frontend will be running on **http://localhost:4000**
 
 ---
 
@@ -181,16 +181,6 @@ cd backend
 npx prisma generate
 npx prisma migrate dev
 ```
-
-### Issue: "Port 3001 already in use"
-```bash
-# Kill the process
-lsof -ti:3001 | xargs kill -9
-
-# Or change port in backend/.env
-PORT=3002
-```
-
 ### Issue: "Keys not found"
 ```bash
 cd backend

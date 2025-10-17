@@ -60,13 +60,39 @@ curl http://localhost:3001/keys/public
 ```
 Swagger docs: http://localhost:3001/api-docs
 
-## 5. Docker (Dev)
+## 5. Docker (Dev) – Zero Manual Steps
+Everything (keys, prisma migrations, protobuf generation) is now automated inside the containers.
+
 ```bash
 # From repo root
-docker-compose up --build
-docker-compose logs -f backend
+docker compose up --build
 ```
-Stop: `docker-compose down` • Clean slate: `docker-compose down -v`
+
+What happens automatically:
+1. Backend entrypoint
+  - Generates RSA keys if missing (`PRIVATE_KEY_PATH` / `PUBLIC_KEY_PATH`)
+  - Builds protobuf JS/TS (`npm run build:proto`)
+  - Applies migrations (`prisma migrate deploy` → fallback `db push`)
+  - Generates Prisma client
+  - Starts NestJS in watch mode
+2. Frontend entrypoint
+  - Builds protobuf artifacts
+  - Starts Vite dev server on port 4000
+
+Useful follow‑up commands:
+```bash
+docker compose logs -f backend
+docker compose logs -f frontend
+docker compose down             
+docker compose down -v          
+```
+
+Environment overrides: create a `backend/.env` before `up` or set inline:
+```bash
+DATABASE_URL="file:/app/prisma/db/dev.db" FRONTEND_URL=http://localhost:4000 docker compose up --build
+```
+
+Healthcheck: backend is considered healthy when `/users` responds 200; frontend waits for backend.
 
 ## 6. Security Basics
 - SHA-384 hashes email, RSA-PSS signs hash

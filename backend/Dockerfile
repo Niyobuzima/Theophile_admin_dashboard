@@ -1,21 +1,20 @@
 FROM node:20-alpine3.20 AS base
 WORKDIR /app
-RUN apk add --no-cache curl openssl
+RUN apk add --no-cache curl openssl bash
 
-FROM base AS dependencies
-COPY package*.json ./
-RUN npm ci --only=production && \
-    npm cache clean --force
-
+# Install dependencies (dev for watch & tooling)
 FROM base AS development
 COPY package*.json ./
 RUN npm install
 COPY . .
 
-RUN mkdir -p /app/prisma && chmod -R 777 /app/prisma && \
-    npx prisma generate || true && \
-    mkdir -p keys
+# Prepare writable directories (prisma, keys)
+RUN mkdir -p /app/prisma /app/keys && chmod -R 777 /app/prisma /app/keys
+
+# Copy entrypoint script
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 
 EXPOSE 3001
-CMD ["npm", "run", "start:dev"]
+ENTRYPOINT ["sh", "/app/entrypoint.sh"]
 
