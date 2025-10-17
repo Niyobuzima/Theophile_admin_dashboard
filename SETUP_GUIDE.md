@@ -5,9 +5,8 @@
 ```
 Theophile_admin_dashboard/
 ├── backend/              ✅ NestJS + Prisma + SQLite
-├── frontend/             ✅ React 19 + Next.js + Tailwind
+├── frontend/             ✅ React 19 + Radix/UI + Tailwindcss
 ├── proto/                ✅ .proto files schema
-├── .github/workflows/    ✅ CI/CD pipelines
 ├── docker-compose.yml    ✅ Docker configuration
 ├── README.md             ✅ Complete documentation
 ├── SECURITY.md           ✅ Security documentation

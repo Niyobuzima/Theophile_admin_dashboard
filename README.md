@@ -1,11 +1,11 @@
 # ADMIN Dashboard (Condensed Guide)
 
-Minimal secure admin panel: NestJS + Prisma (SQLite) backend, React + shadcn/ui frontend, RSA-PSS signatures, SHA-384 hashing, protobuf export.
+Minimal secure admin panel: NestJS + Prisma (SQLite) backend, React + Radix/ui frontend, RSA-PSS signatures, SHA-384 hashing, protobuf export.
 
 ## 1. Quick Start (Local Dev)
 ```bash
-git clone https://github.com/yourusername/qt-admin-dashboard.git
-cd qt-admin-dashboard
+git clone https://github.com/Niyobuzima/Theophile_admin_dashboard.git
+cd Theophile_admin_dashboard
 
 # Backend
 cd backend

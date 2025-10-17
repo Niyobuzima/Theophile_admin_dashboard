@@ -53,25 +53,20 @@ export async function deleteUser(id: number): Promise<User> {
   return res.json();
 }
 
-// Protobuf Export
 export async function fetchUsersProtobuf(): Promise<user.IUser[]> {
   const res = await fetch(`${API_URL}/users/export`);
   if (!res.ok) throw new Error('Failed to fetch users');
   const buffer = await res.arrayBuffer();
-
   const decoded: user.UserList = user.UserList.decode(new Uint8Array(buffer));
-  console.log(decoded.users)
   return decoded.users;
 }
 
-// Analytics
 export async function fetchDailyUserStats(): Promise<DailyStats[]> {
   const res = await fetch(`${API_URL}/users/analytics/daily`);
   if (!res.ok) throw new Error('Failed to fetch analytics');
   return res.json();
 }
 
-// Export utility
 export async function exportUsersToFile(): Promise<Blob> {
   const res = await fetch(`${API_URL}/users/export`);
   if (!res.ok) throw new Error('Failed to export users');

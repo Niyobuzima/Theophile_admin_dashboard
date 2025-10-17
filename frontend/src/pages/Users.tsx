@@ -101,7 +101,6 @@ export default function Users() {
         })
       )
       const data = verifiedUsers.filter((u: User) => u.verified);
-      console.log("user ", data)
       setUsers(data);
     } catch (error) {
       console.error('Failed to load users:', error);

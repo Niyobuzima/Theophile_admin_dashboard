@@ -6,7 +6,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
       target: development
-    container_name: qt-backend
+    container_name: dashboard-backend
     ports:
       - "3001:3001"
     volumes:
@@ -28,13 +28,13 @@ services:
       timeout: 10s
       retries: 3
     networks:
-      - qt-network
+      - dashboard-network
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
       target: development
-    container_name: qt-frontend
+    container_name: dashboard-frontend
     ports:
       - "3000:3000"
     volumes:
@@ -47,8 +47,8 @@ services:
         condition: service_healthy
     command: npm run dev -- --host 0.0.0.0
     networks:
-      - qt-network
+      - dashboard-network
 
 networks:
-  qt-network:
+  dashboard-network:
     driver: bridge
