@@ -29,7 +29,7 @@ DATABASE_URL="file:./dev.db"
 PRIVATE_KEY_PATH=./keys/private.pem
 PUBLIC_KEY_PATH=./keys/public.pem
 PORT=3001
-FRONTEND_URL=http://localhost:3000
+FRONTEND_URL=http://localhost:4000
 NODE_ENV=development
 ```
 Never commit `keys/` or private keys.
