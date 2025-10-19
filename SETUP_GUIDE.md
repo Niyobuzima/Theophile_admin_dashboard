@@ -1,0 +1,220 @@
+# Setup Guide
+
+## Project Structure
+
+```
+Theophile_admin_dashboard/
+├── backend/              ✅ NestJS + Prisma + SQLite
+├── frontend/             ✅ React 19 + Radix/UI + Tailwindcss
+├── proto/                ✅ .proto files schema
+├── docker-compose.yml    ✅ Docker configuration
+├── README.md             ✅ Complete documentation
+├── SECURITY.md           ✅ Security documentation
+```
+## 🚀 Quick Docker Setup
+
+**Got Docker? You're 2 minutes away from a running application!**
+
+If you have Docker installed on your system, simply run:
+
+```bash
+docker-compose up --build -d
+```
+
+This single command will:
+- ✅ Build both backend and frontend containers
+- ✅ Set up the SQLite database automatically
+- ✅ Generate RSA keys if missing
+- ✅ Run Prisma migrations to create tables
+- ✅ Start both services in the background
+
+**Access your application:**
+- Frontend: http://localhost:4000
+- Backend API: http://localhost:3001
+- Swagger Docs: http://localhost:3001/api
+
+The `-d` flag runs containers in detached mode (background). To see logs, use:
+```bash
+docker-compose logs -f
+```
+
+To stop the services:
+```bash
+docker-compose down
+```
+
+---
+
+## 📋 Manual Setup (Alternative)
+
+If you prefer to run services individually or don't have Docker:### Step 1: Install Backend Dependencies
+
+```bash
+cd backend
+npm install
+```
+
+### Step 2: Setup Environment
+
+```bash
+# Copy environment template
+cp .env.example .env
+
+# Generate RSA keys
+npm run generate:keys
+```
+
+### Step 3: Setup Database
+
+```bash
+# Run Prisma migrations
+npx prisma migrate dev --name init
+
+# Generate Prisma client
+npx prisma generate
+```
+
+### Step 4: Start Backend
+
+```bash
+npm run start:dev
+```
+
+Backend will be running on **http://localhost:3001**
+
+### Step 5: Install Frontend Dependencies (New Terminal)
+
+```bash
+cd frontend
+npm install
+```
+
+### Step 6: Setup Frontend Environment
+
+```bash
+# Copy environment template
+cp .env.example .env.local
+```
+
+### Step 7: Start Frontend
+
+```bash
+npm run build:proto #Compile proto file to use on the frontend
+npm run dev
+```
+
+Frontend will be running on **http://localhost:4000**
+
+---
+
+## Testing the Application
+
+### Create a Test User
+
+```bash
+curl -X POST http://localhost:3001/users \
+  -H "Content-Type: application/json" \
+  -d '{"email": "admin@example.com", "role": "admin", "status": "active"}'
+```
+
+### Verify Protobuf Export
+
+```bash
+curl http://localhost:3001/users/export --output users.bin
+```
+
+### Check Public Key
+
+```bash
+curl http://localhost:3001/keys/public
+```
+
+### View Analytics
+
+```bash
+curl http://localhost:3001/users/analytics/daily
+```
+
+---
+
+## Next Steps
+
+1. **Test the Application**
+   - Create users via API
+   - Verify signature verification works
+   - Check analytics chart
+
+2. **Add Sample Data** (Optional)
+   ```bash
+   cd backend
+   # Create multiple users to see chart data
+   for i in {1..10}; do
+     curl -X POST http://localhost:3001/users \
+       -H "Content-Type: application/json" \
+       -d "{\"email\": \"user$i@example.com\", \"role\": \"user\", \"status\": \"active\"}"
+   done
+   ```
+
+3. **Generate Protobuf Files** (if needed)
+   ```bash
+   # Backend
+   cd backend
+   npx pbjs -t static-module -w commonjs -o src/proto/user.js proto/user.proto
+   npx pbts -o src/proto/user.d.ts src/proto/user.js
+
+   # Frontend
+   cd frontend
+   npx pbjs -t static-module -w commonjs -o src/proto/user.js src/proto/user.proto
+   npx pbts -o src/proto/user.d.ts src/proto/user.js
+   ```
+
+## Troubleshooting
+
+### Issue: "Cannot find module '@nestjs/core'"
+```bash
+cd backend && npm install
+```
+
+### Issue: "Prisma Client not generated"
+```bash
+cd backend
+npx prisma generate
+npx prisma migrate dev
+```
+### Issue: "Keys not found"
+```bash
+cd backend
+npm run generate:keys
+```
+
+---
+
+## Key Files to Review
+
+1. **Backend Entry Point**: `backend/src/main.ts`
+2. **Users Service**: `backend/src/users/users.service.ts`
+3. **Crypto Service**: `backend/src/crypto/crypto.service.ts`
+4. **Frontend Components**: `frontend/src/components/`
+5. **API Client**: `frontend/src/lib/api.ts`
+6. **Crypto Utils**: `frontend/src/lib/crypto.ts`
+
+---
+
+## Important Notes
+
+ **Never Commit**:
+- Private keys (`backend/keys/private.pem`)
+- `.env` files
+- `node_modules/`
+- Database files (`*.db`)
+
+ **Include in Repository**:
+- All source code
+- Configuration files
+- README.md
+- SECURITY.md
+- PROJECT_ASSUMPTIONS.md
+- package.json files
+- Dockerfile and docker-compose.yml
+
+---

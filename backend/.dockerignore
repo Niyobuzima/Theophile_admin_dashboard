@@ -1,0 +1,14 @@
+node_modules
+dist
+coverage
+*.log
+.env
+.env.local
+.env.*.local
+keys/
+*.db
+*.db-journal
+.git
+.gitignore
+README.md
+npm-debug.log*
