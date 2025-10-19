@@ -14,6 +14,7 @@ services:
       - /app/node_modules
       - ./backend/keys:/app/keys
       - ./backend/prisma:/app/prisma
+      - ./proto:/app/proto
     environment:
       - NODE_ENV=development
       - DATABASE_URL=file:/app/prisma/db/dev.db
