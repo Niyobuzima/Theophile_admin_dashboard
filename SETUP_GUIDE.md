@@ -115,7 +115,7 @@ docker-compose up --build
 
 This will:
 - Build and start backend on port 3001
-- Build and start frontend on port 3000
+- Build and start frontend on port 4000
 - Set up networking between containers
 
 ---
@@ -151,23 +151,6 @@ This will:
    npx pbts -o src/proto/user.d.ts src/proto/user.js
    ```
 
-4. **Initialize Git Repository**
-   ```bash
-   git init
-   git add .
-   git commit -m "feat: initial project setup"
-   ```
-
-5. **Create GitHub Repository**
-   - Create a new repo on GitHub
-   - Push your code:
-     ```bash
-     git remote add origin <your-repo-url>
-     git branch -M main
-     git push -u origin main
-     ```
----
-
 ## Troubleshooting
 
 ### Issue: "Cannot find module '@nestjs/core'"
@@ -202,13 +185,13 @@ npm run generate:keys
 
 ## Important Notes
 
-⚠️ **Never Commit**:
+ **Never Commit**:
 - Private keys (`backend/keys/private.pem`)
 - `.env` files
 - `node_modules/`
 - Database files (`*.db`)
 
-✅ **Include in Repository**:
+ **Include in Repository**:
 - All source code
 - Configuration files
 - README.md
@@ -216,13 +199,5 @@ npm run generate:keys
 - PROJECT_ASSUMPTIONS.md
 - package.json files
 - Dockerfile and docker-compose.yml
-
----
-
-## Support
-
-If you encounter issues:
-1. Check the troubleshooting section in README.md
-2. Review SECURITY.md for security-related questions
 
 ---
