@@ -11,10 +11,43 @@ Theophile_admin_dashboard/
 ├── README.md             ✅ Complete documentation
 ├── SECURITY.md           ✅ Security documentation
 ```
+## 🚀 Quick Docker Setup
 
-## Quick Start (5 minutes)
+**Got Docker? You're 2 minutes away from a running application!**
 
-### Step 1: Install Backend Dependencies
+If you have Docker installed on your system, simply run:
+
+```bash
+docker-compose up --build -d
+```
+
+This single command will:
+- ✅ Build both backend and frontend containers
+- ✅ Set up the SQLite database automatically
+- ✅ Generate RSA keys if missing
+- ✅ Run Prisma migrations to create tables
+- ✅ Start both services in the background
+
+**Access your application:**
+- Frontend: http://localhost:4000
+- Backend API: http://localhost:3001
+- Swagger Docs: http://localhost:3001/api
+
+The `-d` flag runs containers in detached mode (background). To see logs, use:
+```bash
+docker-compose logs -f
+```
+
+To stop the services:
+```bash
+docker-compose down
+```
+
+---
+
+## 📋 Manual Setup (Alternative)
+
+If you prefer to run services individually or don't have Docker:### Step 1: Install Backend Dependencies
 
 ```bash
 cd backend
@@ -101,22 +134,6 @@ curl http://localhost:3001/keys/public
 ```bash
 curl http://localhost:3001/users/analytics/daily
 ```
-
----
-
-## Alternative: Using Docker
-
-### Start Everything with Docker
-
-```bash
-# From project root
-docker-compose up --build
-```
-
-This will:
-- Build and start backend on port 3001
-- Build and start frontend on port 4000
-- Set up networking between containers
 
 ---
 
