@@ -21,7 +21,7 @@ export default function Sidebar({ currentPage, onPageChange }: SidebarProps) {
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
             <span className="text-sm font-bold">Q</span>
           </div>
-          <span className="text-lg font-semibold">QT Admin</span>
+          <span className="text-lg font-semibold">Admin Dashboard</span>
         </div>
       </div>
 
